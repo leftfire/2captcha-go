@@ -63,12 +63,17 @@ type (
 		HintImageFile   string
 	}
 
+	//         "websiteURL":"https://www.example.com",
+	// "websitePublicKey":"6220FF23-9856-3A6F-9FF1-A14F88123F55",
+	// "funcaptchaApiJSSubdomain":"client-api.arkoselabs.com",
+	// "userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+
 	FunCaptcha struct {
-		SiteKey   string
-		Url       string
-		Surl      string
-		UserAgent string
-		Data      map[string]string
+		WebsiteURL               string
+		WebsitePublicKey         string
+		FuncaptchaApiJSSubdomain string
+		UserAgent                string
+		Data                     map[string]string
 	}
 
 	GeeTest struct {
@@ -648,18 +653,23 @@ func (c *Coordinates) ToRequest() Request {
 	return req
 }
 
+// "websiteURL":"https://www.example.com",
+// "websitePublicKey":"6220FF23-9856-3A6F-9FF1-A14F88123F55",
+// "funcaptchaApiJSSubdomain":"client-api.arkoselabs.com",
+// "userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+
 func (c *FunCaptcha) ToRequest() Request {
 	req := Request{
 		Params: map[string]string{"method": "funcaptcha"},
 	}
-	if c.SiteKey != "" {
-		req.Params["publickey"] = c.SiteKey
+	if c.WebsiteURL != "" {
+		req.Params["websiteURL"] = c.WebsiteURL
 	}
-	if c.Url != "" {
-		req.Params["pageurl"] = c.Url
+	if c.WebsitePublicKey != "" {
+		req.Params["websitePublicKey"] = c.WebsitePublicKey
 	}
-	if c.Surl != "" {
-		req.Params["surl"] = c.Surl
+	if c.FuncaptchaApiJSSubdomain != "" {
+		req.Params["funcaptchaApiJSSubdomain"] = c.FuncaptchaApiJSSubdomain
 	}
 	if c.UserAgent != "" {
 		req.Params["userAgent"] = c.UserAgent
